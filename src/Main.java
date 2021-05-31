@@ -2,7 +2,6 @@ import MemoryAllocator.*;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
@@ -11,9 +10,13 @@ public class Main {
             return;
         }
         try {
-            String[] outputs = new Main().readFromFile(args[0], new FirstFitDecider(), new BestFitDecider(), new WorstFitDecider());
+            String[] outputs = new Main().readFromFile(args[0],
+                    //First-Fit:
+                    ((cells, processSize) -> cells.stream().filter(cell -> cell.getMemoryLeft() >= processSize).findFirst().orElse(null)),
+                    new BestFitDecider(),
+                    new WorstFitDecider());
             FileWriter fileWriter = new FileWriter("output.txt");
-            fileWriter.write("Best-Fit Memory Allocation\n");
+            fileWriter.write("First-Fit Memory Allocation\n");
             fileWriter.append("-----------------------------------------------------------------------------------------------\n");
             fileWriter.append(outputs[0]);
 
@@ -21,7 +24,7 @@ public class Main {
             fileWriter.append("-----------------------------------------------------------------------------------------------\n");
             fileWriter.append(outputs[1]);
 
-            fileWriter.write("\n\nBest-Fit Memory Allocation\n");
+            fileWriter.write("\n\nWorst-Fit Memory Allocation\n");
             fileWriter.append("-----------------------------------------------------------------------------------------------\n");
             fileWriter.append(outputs[2]);
             fileWriter.close();

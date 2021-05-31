@@ -2,7 +2,7 @@ package MemoryAllocator;
 
 import java.util.ArrayList;
 
-class Cell {
+public class Cell {
     private int memoryLeft;
     ArrayList<Integer> processes = new ArrayList<>();
 
